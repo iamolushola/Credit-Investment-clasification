@@ -1,0 +1,10 @@
+                     precision    recall  f1-score   support
+
+      Apex Investor       0.96      0.98      0.97       895
+Developing Borrower       0.91      0.94      0.93       763
+  Emerging Investor       0.96      0.94      0.95       989
+     Prime Borrower       0.86      0.78      0.82       281
+
+           accuracy                           0.94      2928
+          macro avg       0.92      0.91      0.92      2928
+       weighted avg       0.94      0.94      0.94      2928

@@ -1,0 +1,153 @@
+{
+  "label_source": "pseudo_labels_rule_based",
+  "n_records": 14638,
+  "n_features": 44,
+  "class_distribution": {
+    "Emerging Investor": 4942,
+    "Apex Investor": 4473,
+    "Developing Borrower": 3816,
+    "Prime Borrower": 1407
+  },
+  "baseline_results": {
+    "LogisticRegression": {
+      "cv_macro_f1_mean": null,
+      "cv_macro_f1_std": null,
+      "holdout_macro_f1": 0.9162921872495184
+    },
+    "RandomForest": {
+      "cv_macro_f1_mean": null,
+      "cv_macro_f1_std": null,
+      "holdout_macro_f1": 0.891034326731436
+    },
+    "GradientBoosting": {
+      "cv_macro_f1_mean": null,
+      "cv_macro_f1_std": null,
+      "holdout_macro_f1": 0.8963082669110696
+    }
+  },
+  "best_params": {
+    "fast_mode": true,
+    "model__n_estimators": 120,
+    "model__max_depth": 12,
+    "model__min_samples_leaf": 3,
+    "model__max_features": "sqrt"
+  },
+  "best_cv_macro_f1": 0.9088436354075214,
+  "test_macro_f1": 0.9165106724028711,
+  "test_micro_f1": 0.9381830601092896,
+  "classification_report": {
+    "Apex Investor": {
+      "precision": 0.9648351648351648,
+      "recall": 0.9810055865921787,
+      "f1-score": 0.9728531855955679,
+      "support": 895.0
+    },
+    "Developing Borrower": {
+      "precision": 0.910126582278481,
+      "recall": 0.9423328964613368,
+      "f1-score": 0.9259497746297489,
+      "support": 763.0
+    },
+    "Emerging Investor": {
+      "precision": 0.9558521560574949,
+      "recall": 0.9413549039433772,
+      "f1-score": 0.9485481406011207,
+      "support": 989.0
+    },
+    "Prime Borrower": {
+      "precision": 0.8622047244094488,
+      "recall": 0.7793594306049823,
+      "f1-score": 0.8186915887850468,
+      "support": 281.0
+    },
+    "accuracy": 0.9381830601092896,
+    "macro avg": {
+      "precision": 0.9232546568951474,
+      "recall": 0.9110132044004687,
+      "f1-score": 0.9165106724028711,
+      "support": 2928.0
+    },
+    "weighted avg": {
+      "precision": 0.9376951382192182,
+      "recall": 0.9381830601092896,
+      "f1-score": 0.9376262727642207,
+      "support": 2928.0
+    }
+  },
+  "report_text": "                     precision    recall  f1-score   support\n\n      Apex Investor       0.96      0.98      0.97       895\nDeveloping Borrower       0.91      0.94      0.93       763\n  Emerging Investor       0.96      0.94      0.95       989\n     Prime Borrower       0.86      0.78      0.82       281\n\n           accuracy                           0.94      2928\n          macro avg       0.92      0.91      0.92      2928\n       weighted avg       0.94      0.94      0.94      2928\n",
+  "roc_auc_ovr": {
+    "Apex Investor": 0.9990101866685719,
+    "Developing Borrower": 0.9937701851509932,
+    "Emerging Investor": 0.99571772217445,
+    "Prime Borrower": 0.9879659642891234
+  },
+  "pr_auc_ovr": {
+    "Apex Investor": 0.9977920893804737,
+    "Developing Borrower": 0.9837503978674602,
+    "Emerging Investor": 0.9917999520978467,
+    "Prime Borrower": 0.9128007792880448
+  },
+  "confusion_matrix_labels": [
+    "Apex Investor",
+    "Developing Borrower",
+    "Emerging Investor",
+    "Prime Borrower"
+  ],
+  "confusion_matrix": [
+    [
+      878,
+      0,
+      17,
+      0
+    ],
+    [
+      0,
+      719,
+      17,
+      27
+    ],
+    [
+      32,
+      18,
+      931,
+      8
+    ],
+    [
+      0,
+      53,
+      9,
+      219
+    ]
+  ],
+  "calibration_bins": {
+    "confidence_bin_center": [
+      0.35000000000000003,
+      0.45,
+      0.55,
+      0.6500000000000001,
+      0.75,
+      0.8500000000000001,
+      0.95
+    ],
+    "observed_accuracy": [
+      0.5,
+      0.4444444444444444,
+      0.6870503597122302,
+      0.8703703703703703,
+      0.9572649572649573,
+      0.9890909090909091,
+      1.0
+    ],
+    "count": [
+      6,
+      63,
+      278,
+      270,
+      351,
+      550,
+      1410
+    ]
+  },
+  "final_model_cv_macro_f1_mean": 0.9088436354075214,
+  "final_model_cv_macro_f1_std": 0.0022010858931106533
+}
