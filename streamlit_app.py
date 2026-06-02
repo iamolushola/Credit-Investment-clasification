@@ -48,7 +48,26 @@ st.markdown(
     """
     <style>
         .stApp {
-            background-color: #415a77;
+                background-color: #003566;
+                color: #ffffff;
+            }
+        /* Metric cards */
+        div[data-testid="metric-container"] {
+            background-color: #0077b6 !important;
+            color: #ffffff !important;
+            border-radius: 8px;
+            padding: 8px;
+        }
+        div[data-testid="metric-container"] .stMetricValue, div[data-testid="metric-container"] .stMetricLabel {
+            color: #ffffff !important;
+        }
+        /* Tables and text */
+        .stDataFrame td, .stDataFrame th {
+            color: #ffffff !important;
+        }
+        /* Buttons and links */
+        .stButton button, .stDownloadButton button {
+            color: #ffffff !important;
         }
     </style>
     """,
@@ -288,8 +307,16 @@ def get_class_table(df: pd.DataFrame, class_name: str, requested_columns: list[s
 def show_class_summary_cards(df: pd.DataFrame, class_names: list[str]):
     counts = df["predicted_class"].value_counts().reindex(class_names, fill_value=0)
     cols = st.columns(len(class_names))
+    # render custom HTML metric cards with specific background color for class summary
     for name, col in zip(class_names, cols):
-        col.metric(name, f"{int(counts.get(name, 0))}")
+        count = int(counts.get(name, 0))
+        card_html = f"""
+        <div style='background-color:#0077b6;padding:12px;border-radius:8px;text-align:center;'>
+            <div style='color:#ffffff;font-size:14px;margin-bottom:6px;'>{name}</div>
+            <div style='color:#ffffff;font-size:22px;font-weight:700;'>{count}</div>
+        </div>
+        """
+        col.markdown(card_html, unsafe_allow_html=True)
 
 
 def plot_numeric_distribution(df: pd.DataFrame, column: str):
@@ -339,10 +366,30 @@ user_id_col = find_user_identifier_column(raw_df)
 
 st.subheader("Dataset Preview")
 left, right, third = st.columns(3)
-left.metric("Rows", f"{raw_df.shape[0]:,}")
-right.metric("Columns", f"{raw_df.shape[1]:,}")
-third.metric("Source", uploaded_file.name if uploaded_file else "Local data/raw file")
-st.dataframe(raw_df.head(20), use_container_width=True)
+rows_html = f"""
+<div style='background-color:#0077b6;padding:12px;border-radius:8px;text-align:center;min-height:72px;display:flex;flex-direction:column;justify-content:center;align-items:center;'>
+    <div style='color:#ffffff;font-size:14px;margin-bottom:6px;'>Rows</div>
+    <div style='color:#ffffff;font-size:22px;font-weight:700;'>{raw_df.shape[0]:,}</div>
+</div>
+"""
+cols_html = f"""
+<div style='background-color:#0077b6;padding:12px;border-radius:8px;text-align:center;min-height:72px;display:flex;flex-direction:column;justify-content:center;align-items:center;'>
+    <div style='color:#ffffff;font-size:14px;margin-bottom:6px;'>Columns</div>
+    <div style='color:#ffffff;font-size:22px;font-weight:700;'>{raw_df.shape[1]:,}</div>
+</div>
+"""
+source_val = uploaded_file.name if uploaded_file else "Local data/raw file"
+source_html = f"""
+<div style='background-color:#0077b6;padding:12px;border-radius:8px;text-align:center;min-height:72px;display:flex;flex-direction:column;justify-content:center;align-items:center;'>
+    <div style='color:#ffffff;font-size:14px;margin-bottom:6px;'>Source</div>
+    <div style='color:#ffffff;font-size:16px;'>{source_val}</div>
+</div>
+"""
+left.markdown(rows_html, unsafe_allow_html=True)
+right.markdown(cols_html, unsafe_allow_html=True)
+third.markdown(source_html, unsafe_allow_html=True)
+st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
+st.dataframe(raw_df, use_container_width=True, height=220)
 
 raw_json = raw_df.to_json(orient="split", date_format="iso")
 
@@ -419,10 +466,10 @@ for class_name, spec in class_table_specs.items():
     if table.empty:
         st.write("No records found for this class.")
     else:
-        st.dataframe(table.reset_index(drop=True), use_container_width=True)
+        st.dataframe(table.reset_index(drop=True), use_container_width=True, height=220)
 
 st.subheader("Predictions")
-st.dataframe(predictions.head(100), use_container_width=True)
+st.dataframe(predictions, use_container_width=True, height=220)
 col_a, col_b = st.columns(2)
 with col_a:
     dataframe_download(predictions, "holdout_predictions.csv", "Download Holdout Predictions")
@@ -431,7 +478,7 @@ with col_b:
 
 st.subheader("Per-Class Report")
 report_df = pd.DataFrame(metrics["classification_report"]).T
-st.dataframe(report_df, use_container_width=True)
+st.dataframe(report_df, use_container_width=True, height=220)
 
 st.subheader("Saved Artifacts")
 st.write(f"Model saved to: `{DEFAULT_MODEL_PATH}`")
